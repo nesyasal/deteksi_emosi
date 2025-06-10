@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Diskusi Kelompok</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+  <!-- Navbar -->
+  <div id="navbar"></div>
+
+  <div class="max-w-2xl mx-auto mt-10 p-6 bg-white rounded shadow">
+    
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold">Diskusi Kelompok</h2>
+    <div class="bg-indigo-100 text-indigo-800 font-semibold px-4 py-1 rounded shadow text-sm" id="timer">
+     <span id="timeRemaining">30:00</span>
+    </div>
+  </div>
+
+    <div id="chatBox" class="h-64 overflow-y-auto border p-3 mb-4 bg-gray-50 rounded"></div>
+
+    <div class="flex gap-2">
+      <input id="username" type="text" class="w-1/4 p-2 border rounded" placeholder="Nama" />
+      <input id="message" type="text" class="w-3/4 p-2 border rounded" placeholder="Ketik pesan..." />
+      <button onclick="sendMessage()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Kirim</button>
+    </div>
+
+    <!-- <button onclick="startChat()" class="mb-4 bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">Mulai Diskusi Baru</button> -->
+
+    <button onclick="endChat()" class="mt-4 w-full bg-red-600 text-white py-2 rounded hover:bg-red-700">End Chat</button>
+    <div id="summaryBox" class="mt-4 text-center text-sm font-semibold text-indigo-700 hidden whitespace-pre-line"></div>
+
+    <div id="suggestion" class="mt-4 text-center text-sm text-red-500 font-semibold hidden"></div>
+
+    <div id="popupSuggestion" class="fixed bottom-6 right-6 bg-yellow-200 text-yellow-800 font-medium px-4 py-3 rounded shadow-lg hidden transition-opacity duration-300 z-50">
+      💬 <span id="popupText">Saran akan muncul di sini</span>
+    </div>
+  </div>
+
+  <script>
+    let duration = 30 * 60; // 30 menit dalam detik
+    let timerStarted = false;
+    let timerInterval;
+  
+    fetch("components/navbar.html")
+      .then(res => res.text())
+      .then(html => document.getElementById("navbar").innerHTML = html);
+
+    const chatBox = document.getElementById("chatBox");
+    const suggestionBox = document.getElementById("suggestion");
+
+   function appendChat({ user, text, emotion }) {
+  const div = document.createElement("div");
+  div.classList = "mb-2";
+  div.innerHTML = `<strong>${user}</strong>: ${text} <br/><span class="text-xs text-gray-500">[${emotion}]</span>`;
+  chatBox.appendChild(div);
+  chatBox.scrollTop = chatBox.scrollHeight;
+
+  if (["suasana_menegangkan"].includes(emotion)) {
+    showPopupSuggestion();
+    }
+  }
+
+  const saranList = [
+  "Coba ambil jeda sejenak untuk menenangkan diri.",
+  "Mari kita jaga suasana tetap tenang dan produktif.",
+  "Jika sedang kesal, beri waktu untuk berpikir jernih.",
+  "Istirahat 1 menit bisa bantu atur ulang pikiran.",
+  "Tim butuh semangat! Yuk beri dukungan positif."
+];
+
+function showPopupSuggestion() {
+  const popup = document.getElementById("popupSuggestion");
+  const popupText = document.getElementById("popupText");
+  popupText.textContent = saranList[Math.floor(Math.random() * saranList.length)];
+  popup.classList.remove("hidden");
+  popup.classList.add("opacity-100");
+
+  // Hilangkan otomatis setelah 5 detik
+  setTimeout(() => {
+    popup.classList.add("hidden");
+    }, 5000);
+  }
+
+    async function sendMessage() {
+  const user = document.getElementById("username").value.trim();
+  const text = document.getElementById("message").value.trim();
+  if (!user || !text) return;
+
+  // Mulai timer jika belum dimulai
+  if (!timerStarted) {
+    startCountdown();
+    timerStarted = true;
+  }
+
+  const res = await fetch("/api/message", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ user, text })
+  });
+  const data = await res.json();
+  appendChat(data);
+  document.getElementById("message").value = "";
+  }
+
+  function startCountdown() {
+  const display = document.getElementById("timeRemaining");
+
+  timerInterval = setInterval(() => {
+    const minutes = Math.floor(duration / 60);
+    const seconds = duration % 60;
+    display.textContent = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+
+    if (--duration < 0) {
+      clearInterval(timerInterval);
+      endChat(); // otomatis panggil endChat saat waktu habis
+      alert("⏱️ Waktu habis! Diskusi berakhir otomatis.");
+    }
+  }, 1000);
+  }
+
+  async function endChat() {
+  clearInterval(timerInterval);
+
+  const elapsedSeconds = 30 * 60 - duration;
+  const res = await fetch("/api/end-session", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ elapsedSeconds }) // kirim ke backend
+  });
+
+  const data = await res.json();
+  const box = document.getElementById("summaryBox");
+  box.textContent = data.summary;
+  box.classList.remove("hidden");
+}
+
+setTimeout(() => {
+  endChat();
+  alert("Diskusi otomatis berakhir setelah 30 menit.");
+}, 30 * 60 * 1000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>CClassforUs</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 min-h-screen text-white flex flex-col">
+  
+  <!-- Header with Login/Register -->
+  <header class="flex justify-between items-center px-6 py-4">
+    <h1 class="text-2xl font-bold">CClassforUs</h1>
+    <div class="space-x-4">
+      <a href="login.html" class="bg-white text-indigo-700 px-4 py-2 rounded-full font-semibold text-sm hover:bg-gray-100 transition">Login</a>
+      <a href="register.html" class="bg-indigo-700 border border-white px-4 py-2 rounded-full font-semibold text-sm hover:bg-indigo-600 transition">Register</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="flex flex-col items-center justify-center flex-grow px-6 text-center">
+    <h2 class="text-5xl font-extrabold drop-shadow-lg mb-4">Selamat Datang</h2>
+    <p class="text-xl max-w-2xl mb-6 drop-shadow-sm">
+      Platform pembelajaran kolaboratif yang memungkinkan siswa bekerja dalam tim secara <span class="font-semibold">interaktif</span>, <span class="font-semibold">terstruktur</span>, dan <span class="font-semibold">terpantau</span>.<br>
+      Dilengkapi fitur <span class="italic">deteksi emosi</span> dari chat dan ekspresi wajah untuk menciptakan tim yang nyaman, produktif, dan sehat.
+    </p>
+    <a href="chat.html" class="bg-white text-indigo-700 px-8 py-2 rounded-full font-semibold text-lg shadow-md hover:bg-gray-100 transition">
+      Mulai
+    </a>
+  </section>
+
+  <!-- Feature Highlights -->
+  <section class="bg-white text-gray-800 py-12 px-8">
+    <div class="max-w-5xl mx-auto">
+      <h3 class="text-3xl font-bold text-center mb-10">Fitur Utama</h3>
+      <div class="grid md:grid-cols-3 gap-8 text-center">
+        <div>
+          <div class="text-4xl mb-3">💬</div>
+          <h4 class="text-xl font-semibold mb-2">Diskusi Interaktif</h4>
+          <p class="text-sm">Kolaborasi real-time antar siswa dengan struktur peran dan tugas.</p>
+        </div>
+        <div>
+          <div class="text-4xl mb-3">😊</div>
+          <h4 class="text-xl font-semibold mb-2">Deteksi Emosi</h4>
+          <p class="text-sm">Analisis ekspresi wajah dan isi chat untuk memahami suasana hati tim.</p>
+        </div>
+        <div>
+          <div class="text-4xl mb-3">💡</div>
+          <h4 class="text-xl font-semibold mb-2">Saran Emosional Otomatis</h4>
+          <p class="text-sm">Saran cerdas berdasarkan emosi tim ditampilkan di bawah chat atau pop-up.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center text-sm py-2 mt-auto text-white/80">
+    © 2025 CClassforUs — Kolaborasi yang Lebih Cerdas & Empatik
+  </footer>
+</body>
+</html>

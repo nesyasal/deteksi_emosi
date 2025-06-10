@@ -1,0 +1,116 @@
+[
+  {
+    "user": "Nesya",
+    "text": "Halo",
+    "emotion": "netral",
+    "timestamp": "2025-06-09T13:58:41.038Z"
+  },
+  {
+    "user": "Nesya",
+    "text": "halo",
+    "emotion": "netral",
+    "timestamp": "2025-06-09T13:59:06.958Z"
+  },
+  {
+    "user": "Nesya",
+    "text": "ya saya setuju dengan usulan ini",
+    "emotion": "suasana_positif_dan_damai",
+    "timestamp": "2025-06-09T13:59:15.115Z"
+  },
+  {
+    "user": "Valen",
+    "text": "halo selamat pagi",
+    "emotion": "netral",
+    "timestamp": "2025-06-09T14:07:12.810Z"
+  },
+  {
+    "user": "Valen",
+    "text": "sangat bagus",
+    "emotion": "netral",
+    "timestamp": "2025-06-09T14:07:18.965Z"
+  },
+  {
+    "user": "Valen",
+    "text": "Terima kasih",
+    "emotion": "netral",
+    "timestamp": "2025-06-09T14:07:24.566Z"
+  },
+  {
+    "user": "Valen",
+    "text": "halo selamat malam",
+    "emotion": "netral",
+    "timestamp": "2025-06-09T14:09:15.829Z"
+  },
+  {
+    "user": "nesya",
+    "text": "malam",
+    "emotion": "netral",
+    "timestamp": "2025-06-09T14:09:27.471Z"
+  },
+  {
+    "user": "valen",
+    "text": "bagaimana perkembangan hari ini?",
+    "emotion": "netral",
+    "timestamp": "2025-06-09T14:09:41.589Z"
+  },
+  {
+    "user": "nesya",
+    "text": "sangat baik, pak",
+    "emotion": "netral",
+    "timestamp": "2025-06-09T14:09:53.220Z"
+  },
+  {
+    "user": "Valen",
+    "text": "pagi",
+    "emotion": "netral",
+    "timestamp": "2025-06-09T14:24:15.213Z"
+  },
+  {
+    "user": "Nesya",
+    "text": "Selamat pagi pak",
+    "emotion": "netral",
+    "timestamp": "2025-06-09T14:24:30.837Z"
+  },
+  {
+    "user": "Valen",
+    "text": "bagaimana proses proyeknya?",
+    "emotion": "netral",
+    "timestamp": "2025-06-09T14:25:29.440Z"
+  },
+  {
+    "user": "Nesya",
+    "text": "sangat baik pak",
+    "emotion": "netral",
+    "timestamp": "2025-06-09T14:25:39.597Z"
+  },
+  {
+    "user": "Valen",
+    "text": "pagi semua",
+    "emotion": "netral",
+    "timestamp": "2025-06-09T14:42:12.459Z"
+  },
+  {
+    "user": "nesya",
+    "text": "pagi pak",
+    "emotion": "netral",
+    "timestamp": "2025-06-09T14:42:23.923Z"
+  },
+  {
+    "user": "valen",
+    "text": "bagaimana tugasnya?",
+    "emotion": "netral",
+    "timestamp": "2025-06-09T14:42:36.084Z"
+  },
+  {
+    "user": "nesya",
+    "text": "masih belum pak",
+    "emotion": "netral",
+    "timestamp": "2025-06-09T14:42:46.799Z"
+  },
+  {
+    "user": "valen",
+    "text": "bodoh",
+    "emotion": "suasana_menegangkan",
+    "timestamp": "2025-06-09T14:42:57.853Z"
+  }
+]
