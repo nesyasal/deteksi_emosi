@@ -1,6 +1,6 @@
 module.exports = {
-  suasana_positif_dan_damai: ["senang", "bahagia", "gembira", "tertawa", "baik", "puas", "setuju", "setuju dengan pendapat anda", "baik-baik saja", "mantap", "bagus"],
-  suasana_sedih: ["sedih", "kecewa", "murung", "menangis", "patah hati"],
+  suasana_positif_dan_damai: ["senang", "bahagia", "gembira", "tertawa", "baik", "puas", "setuju", "setuju dengan pendapat anda", "baik-baik saja", "mantap", "bagus", "semangat"],
+  suasana_sedih: ["sedih", "kecewa", "murung", "menangis", "patah hati", "melelahkan"],
   suasana_menegangkan: ["marah", "kesal", "benci", "emosi", "geram", "tidak suka", "tidak setuju", "bodoh", "aneh", "sial", "menjengkelkan", "menyebalkan", "mengecewakan", "menyakitkan", "menyusahkan", "merugikan",],
   suasana_netral: ["biasa", "netral", "tenang", "terima kasih", "santai","oke"],
   suasana_takut: ["takut", "cemas", "khawatir", "panik"],

@@ -1,10 +1,14 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-const detectEmotion = require("./utils/detectEmotion"); 
+const detectEmotion = require("./utils/detectEmotion");
 
 const app = express();
 const PORT = 3001;
+
+const { elapsedSeconds } = req.body;
+const durationMin = Math.round((elapsedSeconds || 0) / 60);
+
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
@@ -21,7 +25,9 @@ app.post("/api/message", (req, res) => {
   const chatEntry = { user, text, emotion, timestamp: new Date() };
 
   // Simpan ke file log
-  const log = fs.existsSync(logPath) ? JSON.parse(fs.readFileSync(logPath)) : [];
+  const log = fs.existsSync(logPath)
+    ? JSON.parse(fs.readFileSync(logPath))
+    : [];
   log.push(chatEntry);
   fs.writeFileSync(logPath, JSON.stringify(log, null, 2));
 
@@ -33,33 +39,50 @@ app.post("/api/message", (req, res) => {
 //   res.json({ message: "Diskusi baru dimulai." });
 // });
 
-
 app.post("/api/end-session", (req, res) => {
   const { elapsedSeconds } = req.body;
   const durationMin = Math.round((elapsedSeconds || 0) / 60);
 
-  const chatLog = fs.existsSync(logPath) ? JSON.parse(fs.readFileSync(logPath)) : [];
+  const chatLog = fs.existsSync(logPath)
+    ? JSON.parse(fs.readFileSync(logPath))
+    : [];
   if (chatLog.length === 0) return res.json({ summary: "Diskusi kosong." });
 
   const emotionCounts = {};
-  chatLog.forEach(entry => {
+  chatLog.forEach((entry) => {
     const e = entry.emotion;
     emotionCounts[e] = (emotionCounts[e] || 0) + 1;
   });
 
-  const total = Object.values(emotionCounts).reduce((a, b) => a + b, 0);
-  const dominant = Object.entries(emotionCounts).sort((a, b) => b[1] - a[1])[0][0];
+  console.log("Emosi terdeteksi:", emotionCounts);
 
+  const total = Object.values(emotionCounts).reduce((a, b) => a + b, 0);
+  const dominant = Object.entries(emotionCounts).sort(
+    (a, b) => b[1] - a[1]
+  )[0][0];
 
   let moodSummary = "berlangsung dengan netral";
-  if (dominant === "suasana_positif_dan_damai") moodSummary = "berlangsung dengan damai dan positif";
-  else if (dominant === "suasana_menegangkan" && emotionCounts["suasana_positif_dan_damai"])
-    moodSummary = "sempat berlangsung menegangkan namun kembali positif dan damai";
-  else if (dominant === "suasana_menegangkan") moodSummary = "berlangsung menegangkan";
+  if (dominant === "suasana_positif_dan_damai") {
+    moodSummary = "berlangsung dengan damai dan positif";
+  } else if (dominant === "suasana_menegangkan") {
+    const positive = emotionCounts["suasana_positif_dan_damai"] || 0;
+    const menegangkan = emotionCounts["suasana_menegangkan"] || 0;
+
+    if (positive > 0 && menegangkan > 0 && menegangkan >= positive) {
+      moodSummary =
+        "sempat berlangsung menegangkan namun kembali positif dan damai";
+    } else {
+      moodSummary = "berlangsung menegangkan";
+    }
+  }
+
+  console.log("Dominan:", dominant);
+  console.log("Ringkasan:", moodSummary);
 
   const summary = `Diskusi berakhir selama ${durationMin} menit\nSuasana ${moodSummary}`;
   res.json({ summary });
 });
 
-
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+app.listen(PORT, () =>
+  console.log(`Server running on http://localhost:${PORT}`)
+);

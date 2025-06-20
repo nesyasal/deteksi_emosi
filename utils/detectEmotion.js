@@ -26,7 +26,7 @@ function detectEmotion(rawText) {
     }
   }
 
-  let maxEmotion = "netral";
+  let maxEmotion = "suasana_netral"; 
   let maxScore = 0;
 
   for (const [emotion, score] of Object.entries(scores)) {
@@ -36,7 +36,7 @@ function detectEmotion(rawText) {
     }
   }
 
-  return maxScore > 0 ? maxEmotion : "netral";
+  return maxScore > 0 ? maxEmotion : "suasana_netral";
 }
 
 module.exports = detectEmotion;

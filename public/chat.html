@@ -120,14 +120,15 @@ function showPopupSuggestion() {
   }, 1000);
   }
 
-  async function endChat() {
+ async function endChat() {
   clearInterval(timerInterval);
 
   const elapsedSeconds = 30 * 60 - duration;
+
   const res = await fetch("/api/end-session", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ elapsedSeconds }) // kirim ke backend
+    body: JSON.stringify({ elapsedSeconds }) // penting dikirim!
   });
 
   const data = await res.json();
