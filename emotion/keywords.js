@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   suasana_positif_dan_damai: [
     "senang",
     "bahagia",
