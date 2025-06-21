@@ -1,4 +1,4 @@
-const emotionKeywords = require("../emotion/keywords");
+import emotionKeywords from "../emotion/keywords.js";
 
 // Fungsi normalisasi teks: huruf kecil + hapus tanda baca
 function normalize(text) {
@@ -26,7 +26,7 @@ function detectEmotion(rawText) {
     }
   }
 
-  let maxEmotion = "suasana_netral"; 
+  let maxEmotion = "suasana_netral";
   let maxScore = 0;
 
   for (const [emotion, score] of Object.entries(scores)) {
@@ -39,4 +39,4 @@ function detectEmotion(rawText) {
   return maxScore > 0 ? maxEmotion : "suasana_netral";
 }
 
-module.exports = detectEmotion;
+export default detectEmotion;
