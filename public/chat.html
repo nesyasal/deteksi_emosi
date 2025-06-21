@@ -10,13 +10,20 @@
   <div id="navbar"></div>
 
   <div class="max-w-2xl mx-auto mt-10 p-6 bg-white rounded shadow">
-    
-  <div class="flex justify-between items-center mb-4">
-    <h2 class="text-2xl font-bold">Diskusi Kelompok</h2>
-    <div class="bg-indigo-100 text-indigo-800 font-semibold px-4 py-1 rounded shadow text-sm" id="timer">
-     <span id="timeRemaining">30:00</span>
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-2xl font-bold">Diskusi Kelompok</h2>
+  <div class="flex items-center gap-3">
+    <div class="bg-indigo-100 text-indigo-800 font-semibold px-3 py-1 rounded shadow text-sm" id="timer">
+      ⏳ <span id="timeRemaining">30:00</span>
     </div>
-  </div>
+    <button type="button" id="videoCallBtn" onclick="startVideoCall()" class="flex items-center bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded shadow cursor-pointer">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-1" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17 10.5V6c0-1.1-.9-2-2-2H5C3.9 4 3 4.9 3 6v12c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-4.5l4 4v-11l-4 4z" />
+      </svg>
+      Start Video Call
+      </button>
+      </div>
+    </div>
 
     <div id="chatBox" class="h-64 overflow-y-auto border p-3 mb-4 bg-gray-50 rounded"></div>
 
@@ -29,11 +36,18 @@
     <!-- <button onclick="startChat()" class="mb-4 bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">Mulai Diskusi Baru</button> -->
 
     <button onclick="endChat()" class="mt-4 w-full bg-red-600 text-white py-2 rounded hover:bg-red-700">End Chat</button>
-    <div id="summaryBox" class="mt-4 text-center text-sm font-semibold text-indigo-700 hidden whitespace-pre-line"></div>
 
-    <div id="suggestion" class="mt-4 text-center text-sm text-red-500 font-semibold hidden"></div>
+  <div id="videoSection" class="hidden">
+    <video id="video" width="400" height="300" autoplay muted class="rounded shadow"></video>
+    <canvas id="overlay" width="400" height="300" class="absolute top-0 left-0"></canvas>
+    <div id="faceEmotion" class="mt-2 text-center text-indigo-600 font-semibold"></div>
+  </div>
 
-    <div id="popupSuggestion" class="fixed bottom-6 right-6 bg-yellow-200 text-yellow-800 font-medium px-4 py-3 rounded shadow-lg hidden transition-opacity duration-300 z-50">
+  <div id="summaryBox" class="mt-4 text-center text-sm font-semibold text-indigo-700 hidden whitespace-pre-line"></div>
+
+  <div id="suggestion" class="mt-4 text-center text-sm text-red-500 font-semibold hidden"></div>
+
+  <div id="popupSuggestion" class="fixed bottom-6 right-6 bg-yellow-200 text-yellow-800 font-medium px-4 py-3 rounded shadow-lg hidden transition-opacity duration-300 z-50">
       💬 <span id="popupText">Saran akan muncul di sini</span>
     </div>
   </div>
@@ -137,10 +151,24 @@ function showPopupSuggestion() {
   box.classList.remove("hidden");
 }
 
+// Disable tombol video call saat load
+const videoBtn = document.querySelector('button[onclick="startVideoCall()"]');
+if (videoBtn) videoBtn.disabled = true;
+
+// Cek ketersediaan faceapi setiap 200ms, enable tombol jika sudah siap
+const faceapiInterval = setInterval(() => {
+  if (typeof faceapi !== "undefined") {
+    if (videoBtn) videoBtn.disabled = false;
+    clearInterval(faceapiInterval);
+  }
+}, 200);
+
 setTimeout(() => {
   endChat();
   alert("Diskusi otomatis berakhir setelah 30 menit.");
 }, 30 * 60 * 1000);
-  </script>
+</script>
+  <script defer src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
+  <script defer src="/js/face-detect.js"></script>
 </body>
 </html>

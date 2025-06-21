@@ -6,14 +6,12 @@ const detectEmotion = require("./utils/detectEmotion");
 const app = express();
 const PORT = 3001;
 
-const { elapsedSeconds } = req.body;
-const durationMin = Math.round((elapsedSeconds || 0) / 60);
-
-
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 
 const logPath = path.join(__dirname, "data", "chat-log.json");
+
+const tasksPath = path.join(__dirname, "data", "tasks.json");
 
 fs.writeFileSync(logPath, JSON.stringify([]));
 
@@ -85,4 +83,43 @@ app.post("/api/end-session", (req, res) => {
 
 app.listen(PORT, () =>
   console.log(`Server running on http://localhost:${PORT}`)
+);
+
+// GET semua tugas
+app.get("/api/tasks", (req, res) => {
+  const tasks = fs.existsSync(tasksPath)
+    ? JSON.parse(fs.readFileSync(tasksPath))
+    : [];
+  res.json(tasks);
+});
+
+// POST tugas baru
+app.post("/api/tasks", (req, res) => {
+  const task = req.body;
+  const tasks = fs.existsSync(tasksPath)
+    ? JSON.parse(fs.readFileSync(tasksPath))
+    : [];
+  tasks.push(task);
+  fs.writeFileSync(tasksPath, JSON.stringify(tasks, null, 2));
+  res.status(201).json({ message: "Task added" });
+});
+
+// PUT update status tugas
+app.put("/api/tasks/:index", (req, res) => {
+  const index = parseInt(req.params.index);
+  const tasks = fs.existsSync(tasksPath)
+    ? JSON.parse(fs.readFileSync(tasksPath))
+    : [];
+
+  if (index >= 0 && index < tasks.length) {
+    tasks[index].status = req.body.status;
+    fs.writeFileSync(tasksPath, JSON.stringify(tasks, null, 2));
+    res.json({ message: "Task updated" });
+  } else {
+    res.status(404).json({ error: "Task not found" });
+  }
+});
+
+app.listen(PORT, () =>
+  console.log(`✅ Server running at http://localhost:${PORT}`)
 );
