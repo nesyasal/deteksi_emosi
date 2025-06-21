@@ -10,8 +10,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 
 const logPath = path.join(__dirname, "data", "chat-log.json");
-
 const tasksPath = path.join(__dirname, "data", "tasks.json");
+const feedbackPath = path.join(__dirname, "data", "feedback-log.json");
 
 fs.writeFileSync(logPath, JSON.stringify([]));
 
@@ -123,3 +123,35 @@ app.put("/api/tasks/:index", (req, res) => {
 app.listen(PORT, () =>
   console.log(`✅ Server running at http://localhost:${PORT}`)
 );
+
+// Endpoint kirim umpan balik
+app.post("/api/feedback", (req, res) => {
+  const { receiver, message, anonymous } = req.body;
+  const sender = anonymous ? "Anonymous" : "User";
+
+  const feedback = {
+    receiver,
+    sender,
+    message,
+    anonymous,
+    timestamp: new Date()
+  };
+
+  const log = fs.existsSync(feedbackPath)
+    ? JSON.parse(fs.readFileSync(feedbackPath))
+    : [];
+
+  log.push(feedback);
+  fs.writeFileSync(feedbackPath, JSON.stringify(log, null, 2));
+
+  res.json({ success: true });
+});
+
+// Endpoint ambil semua umpan balik
+app.get("/api/feedback", (req, res) => {
+  const log = fs.existsSync(feedbackPath)
+    ? JSON.parse(fs.readFileSync(feedbackPath))
+    : [];
+
+  res.json(log);
+});

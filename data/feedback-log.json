@@ -1,0 +1,16 @@
+[
+  {
+    "receiver": "Ali",
+    "sender": "User",
+    "message": "Ganteng banget",
+    "anonymous": false,
+    "timestamp": "2025-06-21T14:13:14.550Z"
+  },
+  {
+    "receiver": "Ali",
+    "sender": "Anonymous",
+    "message": "nyebelun banget",
+    "anonymous": true,
+    "timestamp": "2025-06-21T14:13:33.170Z"
+  }
+]
