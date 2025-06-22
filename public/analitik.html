@@ -2,15 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Tugas</title>
+  <title>Analitik</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100">
-  <div id="navbar"></div>
+<body class="bg-gray-100 min-h-screen">
+  <!-- Navbar sticky -->
+  <div id="navbar" class="fixed top-0 left-0 w-full z-50 bg-white shadow"></div>
 
-  <div class="max-w-2xl mx-auto mt-10 p-6 bg-white rounded shadow">
-    <h2 class="text-2xl font-bold mb-4 text-center">Manajemen Tugas</h2>
-    <p class="text-center text-gray-500">Fitur ini akan dikembangkan.</p>
+  <div class="max-w-4xl mx-auto bg-white p-6 rounded shadow mt-28">
+    <h2 class="text-2xl font-bold mb-4">Member Analytics</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <div class="p-4 border rounded shadow flex flex-col items-start">
+        <h3 class="font-semibold mb-2">Chat Activity</h3>
+        <p id="totalMessages">Total Messages: -</p>
+        <p id="todayMessages">Today's Messages: -</p>
+      </div>
+      <div class="p-4 border rounded shadow flex flex-col items-start">
+        <h3 class="font-semibold mb-2">Task Completion</h3>
+        <p id="totalTasks">Total Tasks: -</p>
+        <p id="completedTasks">Completed Tasks: -</p>
+        <p id="completionRate">Completion Rate: -%</p>
+      </div>
+      <div class="p-4 border rounded shadow flex flex-col items-start">
+        <h3 class="font-semibold mb-2">Active Time</h3>
+        <p id="todayTime">Today's Active Time: -</p>
+        <p id="weeklyTime">Weekly Active Time: -</p>
+      </div>
+    </div>
+    <div class="bg-gray-50 rounded p-6 shadow flex flex-col items-start\\\">
+      <h2 class="text-xl font-bold mb-4">Mood Analytics</h2>
+      <div class="w-full md:w-2/3">
+        <canvas id="moodChart" height="120"></canvas>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -18,5 +42,7 @@
       .then(res => res.text())
       .then(html => document.getElementById("navbar").innerHTML = html);
   </script>
+  <script src="/js/analitik.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>

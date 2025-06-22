@@ -155,3 +155,78 @@ app.get("/api/feedback", (req, res) => {
 
   res.json(log);
 });
+
+app.get("/api/analytics", (req, res) => {
+  const chatLog = fs.existsSync(logPath)
+    ? JSON.parse(fs.readFileSync(logPath))
+    : [];
+
+  const tasksPath = path.join(__dirname, "data", "tasks.json");
+  const tasks = fs.existsSync(tasksPath)
+    ? JSON.parse(fs.readFileSync(tasksPath))
+    : [];
+
+  // Hitung total & hari ini (chat)
+  const totalMessages = chatLog.length;
+  const today = new Date().toISOString().split("T")[0];
+  const todayMessages = chatLog.filter(entry =>
+    entry.timestamp.startsWith(today)
+  ).length;
+
+  // Hitung tugas
+  const totalTasks = tasks.length;
+  const completedTasks = tasks.filter(task => task.status === "Completed").length;
+  const completionRate = totalTasks ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
+  // Waktu aktif dummy (bisa disesuaikan)
+  const todayTime = "2h 30m";
+  const weeklyTime = "12h 45m";
+
+  res.json({
+    totalMessages,
+    todayMessages,
+    totalTasks,
+    completedTasks,
+    completionRate,
+    todayTime,
+    weeklyTime
+  });
+});
+
+// Endpoint untuk ambil data suasana diskusi (30 hari terakhir)
+app.get("/api/mood-data", (req, res) => {
+  const logPath = path.join(__dirname, "data", "chat-log.json");
+  const chatLog = fs.existsSync(logPath) ? JSON.parse(fs.readFileSync(logPath)) : [];
+
+  const moodByDate = {};
+
+  chatLog.forEach(({ timestamp, emotion }) => {
+    const date = new Date(timestamp).toISOString().split("T")[0]; // yyyy-mm-dd
+    if (!moodByDate[date]) {
+      moodByDate[date] = { damai: 0, menegangkan: 0, netral: 0 };
+    }
+
+    if (emotion === "suasana_positif_dan_damai") {
+      moodByDate[date].damai++;
+    } else if (emotion === "suasana_menegangkan") {
+      moodByDate[date].menegangkan++;
+    } else {
+      moodByDate[date].netral++;
+    }
+  });
+
+  // Ambil 30 hari terakhir
+  const last30Days = Array.from({ length: 30 }, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - 29 + i);
+    return d.toISOString().split("T")[0];
+  });
+
+  const result = last30Days.map(date => ({
+    date,
+    ...moodByDate[date]
+  }));
+
+  res.json(result);
+});
+
