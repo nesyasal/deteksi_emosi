@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
+const bcrypt = require("bcrypt");
 const detectEmotion = require("./utils/detectEmotion");
 
 const app = express();
@@ -9,11 +10,78 @@ const PORT = 3001;
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 
+const usersPath = path.join(__dirname, "data", "users.json");
 const logPath = path.join(__dirname, "data", "chat-log.json");
 const tasksPath = path.join(__dirname, "data", "tasks.json");
 const feedbackPath = path.join(__dirname, "data", "feedback-log.json");
 
+if (!fs.existsSync(usersPath)) fs.writeFileSync(usersPath, "[]");
+
 fs.writeFileSync(logPath, JSON.stringify([]));
+
+// Endpoint untuk registrasi pengguna
+app.post("/api/register", (req, res) => {
+  const { fullname, email, phone, password } = req.body;
+
+  if (!fullname || !email || !phone || !password) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Semua field wajib diisi." });
+  }
+
+  const users = fs.existsSync(usersPath)
+    ? JSON.parse(fs.readFileSync(usersPath))
+    : [];
+
+  const userExists = users.find((user) => user.email === email);
+  if (userExists) {
+    return res
+      .status(409)
+      .json({ success: false, message: "Email sudah terdaftar." });
+  }
+
+  const hashedPassword = bcrypt.hashSync(password, 10); // ✅ simpan password aman
+  users.push({ fullname, email, phone, password: hashedPassword });
+
+  fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
+
+  console.log("✅ User berhasil didaftarkan:", fullname);
+  return res.json({ success: true });
+});
+
+// Endpoint untuk login pengguna
+app.post("/api/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password)
+    return res
+      .status(400)
+      .json({ success: false, message: "Email dan password wajib diisi." });
+
+  const users = fs.existsSync(usersPath)
+    ? JSON.parse(fs.readFileSync(usersPath))
+    : [];
+  const user = users.find((u) => u.email === email);
+
+  if (!user) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Email tidak ditemukan." });
+  }
+
+  const match = await bcrypt.compare(password, user.password);
+  if (!match) {
+    return res.status(401).json({ success: false, message: "Password salah." });
+  }
+
+  // Login berhasil
+  res.json({
+    success: true,
+    user: { fullname: user.fullname, email: user.email },
+  });
+
+  console.log("📩 Menerima permintaan login:", email);
+});
 
 // Endpoint untuk deteksi emosi dan simpan chat
 app.post("/api/message", (req, res) => {
@@ -126,15 +194,16 @@ app.listen(PORT, () =>
 
 // Endpoint kirim umpan balik
 app.post("/api/feedback", (req, res) => {
-  const { receiver, message, anonymous } = req.body;
-  const sender = anonymous ? "Anonymous" : "User";
+  const { receiver, message, anonymous, sender } = req.body;
+  // Gunakan sender dari client jika ada dan tidak anonymous
+  const senderName = anonymous ? "Anonymous" : sender || "User";
 
   const feedback = {
     receiver,
-    sender,
+    sender: senderName,
     message,
     anonymous,
-    timestamp: new Date()
+    timestamp: new Date(),
   };
 
   const log = fs.existsSync(feedbackPath)
@@ -169,14 +238,18 @@ app.get("/api/analytics", (req, res) => {
   // Hitung total & hari ini (chat)
   const totalMessages = chatLog.length;
   const today = new Date().toISOString().split("T")[0];
-  const todayMessages = chatLog.filter(entry =>
+  const todayMessages = chatLog.filter((entry) =>
     entry.timestamp.startsWith(today)
   ).length;
 
   // Hitung tugas
   const totalTasks = tasks.length;
-  const completedTasks = tasks.filter(task => task.status === "Completed").length;
-  const completionRate = totalTasks ? Math.round((completedTasks / totalTasks) * 100) : 0;
+  const completedTasks = tasks.filter(
+    (task) => task.status === "Completed"
+  ).length;
+  const completionRate = totalTasks
+    ? Math.round((completedTasks / totalTasks) * 100)
+    : 0;
 
   // Waktu aktif dummy (bisa disesuaikan)
   const todayTime = "2h 30m";
@@ -189,14 +262,16 @@ app.get("/api/analytics", (req, res) => {
     completedTasks,
     completionRate,
     todayTime,
-    weeklyTime
+    weeklyTime,
   });
 });
 
 // Endpoint untuk ambil data suasana diskusi (30 hari terakhir)
 app.get("/api/mood-data", (req, res) => {
   const logPath = path.join(__dirname, "data", "chat-log.json");
-  const chatLog = fs.existsSync(logPath) ? JSON.parse(fs.readFileSync(logPath)) : [];
+  const chatLog = fs.existsSync(logPath)
+    ? JSON.parse(fs.readFileSync(logPath))
+    : [];
 
   const moodByDate = {};
 
@@ -222,11 +297,10 @@ app.get("/api/mood-data", (req, res) => {
     return d.toISOString().split("T")[0];
   });
 
-  const result = last30Days.map(date => ({
+  const result = last30Days.map((date) => ({
     date,
-    ...moodByDate[date]
+    ...moodByDate[date],
   }));
 
   res.json(result);
 });
-
