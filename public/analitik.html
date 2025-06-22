@@ -5,32 +5,32 @@
   <title>Analitik</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-gradient-to-br from-blue-700 via-blue-500 to-blue-300 min-h-screen text-white">
   <!-- Navbar sticky -->
   <div id="navbar" class="fixed top-0 left-0 w-full z-50 bg-white shadow"></div>
 
-  <div class="max-w-4xl mx-auto bg-white p-6 rounded shadow mt-28">
-    <h2 class="text-2xl font-bold mb-4">Member Analytics</h2>
+  <div class="max-w-4xl mx-auto bg-white/90 p-6 rounded-xl shadow-lg mt-28 text-blue-900">
+    <h2 class="text-2xl font-bold mb-4 text-blue-800">Contribution analytics</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-      <div class="p-4 border rounded shadow flex flex-col items-start">
-        <h3 class="font-semibold mb-2">Chat Activity</h3>
+      <div class="p-4 border border-blue-200 rounded shadow flex flex-col items-start bg-blue-50/60">
+        <h3 class="font-semibold mb-2 text-blue-700">Chat Activity</h3>
         <p id="totalMessages">Total Messages: -</p>
         <p id="todayMessages">Today's Messages: -</p>
       </div>
-      <div class="p-4 border rounded shadow flex flex-col items-start">
-        <h3 class="font-semibold mb-2">Task Completion</h3>
+      <div class="p-4 border border-blue-200 rounded shadow flex flex-col items-start bg-blue-50/60">
+        <h3 class="font-semibold mb-2 text-blue-700">Task Completion</h3>
         <p id="totalTasks">Total Tasks: -</p>
         <p id="completedTasks">Completed Tasks: -</p>
         <p id="completionRate">Completion Rate: -%</p>
       </div>
-      <div class="p-4 border rounded shadow flex flex-col items-start">
-        <h3 class="font-semibold mb-2">Active Time</h3>
+      <div class="p-4 border border-blue-200 rounded shadow flex flex-col items-start bg-blue-50/60">
+        <h3 class="font-semibold mb-2 text-blue-700">Active Time</h3>
         <p id="todayTime">Today's Active Time: -</p>
         <p id="weeklyTime">Weekly Active Time: -</p>
       </div>
     </div>
-    <div class="bg-gray-50 rounded p-6 shadow flex flex-col items-start\\\">
-      <h2 class="text-xl font-bold mb-4">Mood Analytics</h2>
+    <div class="bg-blue-50/60 rounded p-6 shadow flex flex-col items-start">
+      <h2 class="text-xl font-bold mb-4 text-blue-800">Mood Analytics</h2>
       <div class="w-full md:w-2/3">
         <canvas id="moodChart" height="120"></canvas>
       </div>

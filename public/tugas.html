@@ -5,42 +5,42 @@
   <title>Tugas</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen">
-  <div id="navbar"></div>
+<body class="bg-gradient-to-br from-blue-700 via-blue-500 to-blue-300 min-h-screen text-white">
+  <div id="navbar" class="mb-6"></div>
 
-  <div class="max-w-4xl mx-auto bg-white p-8 mt-6 rounded-lg shadow-md">
-    <h2 class="text-3xl font-bold mb-6 text-gray-800">Tasks Management</h2>
+  <div class="max-w-4xl mx-auto bg-white/90 p-8 mt-16 rounded-xl shadow-lg text-blue-900">
+    <h2 class="text-3xl font-bold mb-6 text-blue-800">Tasks Management</h2>
 
     <!-- Form -->
     <div class="mb-10">
-  <h3 class="text-xl font-semibold mb-4 text-gray-700">Create New Task</h3>
-  <div class="flex flex-col gap-4 mb-4">
-    <input id="taskName" type="text" placeholder="Nama Tugas"
-      class="p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400" />
-    <input id="deadline" type="date"
-      class="p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400" />
-    <input id="assignee" type="text" placeholder="Penanggung Jawab / Role"
-      class="p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400" />
-  </div>
-  <button onclick="createTask()"
-    class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded shadow transition duration-200">
-    Create Task
-  </button>
-</div>
+      <h3 class="text-xl font-semibold mb-4 text-blue-700">Create New Task</h3>
+      <div class="flex flex-col gap-4 mb-4">
+        <input id="taskName" type="text" placeholder="Task Name"
+          class="p-3 border border-blue-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 text-blue-900" />
+        <input id="deadline" type="date"
+          class="p-3 border border-blue-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 text-blue-900" />
+        <input id="assignee" type="text" placeholder="Assignee / Role"
+          class="p-3 border border-blue-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 text-blue-900" />
+      </div>
+      <button onclick="createTask()"
+        class="bg-blue-700 hover:bg-blue-800 text-white px-6 py-2 rounded shadow transition duration-200">
+        Create Task
+      </button>
+    </div>
 
     <!-- Task List -->
-    <h3 class="text-xl font-semibold mb-4 text-gray-700">Task List</h3>
+    <h3 class="text-xl font-semibold mb-4 text-blue-700">Task List</h3>
     <div class="overflow-x-auto">
-      <table class="min-w-full border border-gray-300 text-sm text-gray-700">
-        <thead class="bg-gray-100">
+      <table class="min-w-full border border-blue-200 text-sm text-blue-900 bg-white/80">
+        <thead class="bg-blue-100">
           <tr>
-            <th class="px-4 py-2 border">Task</th>
-            <th class="px-4 py-2 border">Deadline</th>
-            <th class="px-4 py-2 border">Assignee</th>
-            <th class="px-4 py-2 border">Status</th>
+            <th class="px-4 py-2 border border-blue-200">Task</th>
+            <th class="px-4 py-2 border border-blue-200">Deadline</th>
+            <th class="px-4 py-2 border border-blue-200">Assignee</th>
+            <th class="px-4 py-2 border border-blue-200">Status</th>
           </tr>
         </thead>
-        <tbody id="taskTable" class="bg-white divide-y divide-gray-200"></tbody>
+        <tbody id="taskTable" class="divide-y divide-blue-100"></tbody>
       </table>
     </div>
   </div>
