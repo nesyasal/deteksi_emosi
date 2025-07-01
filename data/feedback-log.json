@@ -12,5 +12,19 @@
     "message": "nyebelun banget",
     "anonymous": true,
     "timestamp": "2025-06-21T14:13:33.170Z"
+  },
+  {
+    "receiver": "Afwan",
+    "sender": "User",
+    "message": "youre good",
+    "anonymous": false,
+    "timestamp": "2025-06-22T02:11:53.375Z"
+  },
+  {
+    "receiver": "Anggi",
+    "sender": "Nesya Salma Ramadhani",
+    "message": "tolong pelan-pelan saat berdiskusi",
+    "anonymous": false,
+    "timestamp": "2025-06-22T02:16:35.998Z"
   }
 ]

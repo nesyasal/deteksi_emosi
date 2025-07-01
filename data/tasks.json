@@ -3,6 +3,12 @@
     "task": "proyek pembuatan web",
     "deadline": "2025-06-21",
     "assignee": "Nesya",
+    "status": "Completed"
+  },
+  {
+    "task": "Pembuatan database",
+    "deadline": "2025-06-23",
+    "assignee": "Ali",
     "status": "In Progress"
   }
 ]
