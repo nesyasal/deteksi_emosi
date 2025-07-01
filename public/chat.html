@@ -93,6 +93,9 @@ function showPopupSuggestion() {
     }, 5000);
   }
 
+function startVideoCall() {
+  window.location.href = "wajah.html"; // arahkan ke file wajah.html
+}
     async function sendMessage() {
   const user = document.getElementById("username").value.trim();
   const text = document.getElementById("message").value.trim();
@@ -146,18 +149,6 @@ function showPopupSuggestion() {
   box.textContent = data.summary;
   box.classList.remove("hidden");
 }
-
-// Disable tombol video call saat load
-const videoBtn = document.querySelector('button[onclick="startVideoCall()"]');
-if (videoBtn) videoBtn.disabled = true;
-
-// Cek ketersediaan faceapi setiap 200ms, enable tombol jika sudah siap
-const faceapiInterval = setInterval(() => {
-  if (typeof faceapi !== "undefined") {
-    if (videoBtn) videoBtn.disabled = false;
-    clearInterval(faceapiInterval);
-  }
-}, 200);
 
 setTimeout(() => {
   endChat();
