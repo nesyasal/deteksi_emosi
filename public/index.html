@@ -14,8 +14,12 @@
 </head>
 <body class="bg-gradient-to-br from-blue-700 via-blue-500 to-blue-300 min-h-screen text-white flex flex-col">
   <!-- Header with Login/Register -->
-  <header class="flex justify-between items-center px-6 py-4">
+  <header class="flex justify-between items-center px-6 py-4 relative">
     <h1 class="text-2xl font-bold">CClassforUs</h1>
+    <button onclick="toggleModal()" title="Panduan Pengguna" class="absolute right-6 top-1/2 -translate-y-1/2 bg-white text-blue-700 rounded-full p-2 shadow hover:bg-blue-100 transition focus:outline-none focus:ring-2 focus:ring-blue-400">
+      <span class="sr-only">Panduan Pengguna</span>
+      <span class="text-2xl">❓</span>
+    </button>
   </header>
 
   <!-- Hero Section -->
@@ -141,5 +145,165 @@
     </div>
     <div class="text-center text-xs text-white/70 mt-6">© 2025 CClassforUs — Kolaborasi yang Lebih Cerdas & Empatik</div>
   </footer>
+
+<!-- Modal Panduan Pengguna -->
+<div id="userGuideModal" class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+  <div class="bg-white text-blue-900 w-full max-w-2xl min-h-[560px] max-h-[90vh] p-6 rounded-xl shadow-lg relative flex flex-col overflow-y-auto">
+    <!-- Tombol Tutup -->
+    <button onclick="toggleModal()" class="absolute top-3 right-3 text-red-500 hover:text-red-700 text-2xl z-10" title="Tutup">&times;</button>
+
+    <h3 class="text-2xl font-bold mb-4 flex items-center gap-2 mt-2">
+      <span class="text-blue-600">❓</span> Panduan Pengguna
+    </h3>
+
+    <div id="guideSlides" class="relative flex-1 overflow-x-hidden pb-4" style="min-height: 340px;">
+      <!-- Slide 1 -->
+      <div class="guide-slide" id="slide-1">
+        <div class="space-y-4 text-base leading-relaxed">
+          <div class="border-b pb-2">
+            <span class="text-lg font-semibold">🔐 1. Registrasi dan Login</span>
+            <ul class="list-disc pl-6 mt-1 text-sm">
+              <li>Registrasi memerlukan: <b>Nama Lengkap, Email, Nomor Telepon, Password & Konfirmasi Password</b></li>
+              <li>Setelah mendaftar, Anda bisa langsung login menggunakan email & password.</li>
+              <li>Hanya pengguna yang terdaftar yang bisa menggunakan fitur aplikasi.</li>
+            </ul>
+          </div>
+          <div class="border-b pb-2">
+            <span class="text-lg font-semibold">💬 2. Diskusi Kelompok (Deteksi Emosi Teks)</span>
+            <ul class="list-disc pl-6 mt-1 text-sm">
+              <li>Ketik nama dan pesan Anda, lalu klik <b>Kirim</b> untuk berdiskusi.</li>
+              <li>Emosi dalam pesan Anda akan otomatis dideteksi berdasarkan kata-kata tertentu.</li>
+              <li>Jika suasana tegang terdeteksi, sistem akan memberi <b>pop-up saran positif</b>.</li>
+              <li>Anda bisa mengakhiri diskusi dengan tombol <b>End Chat</b>, sistem akan merangkum suasana diskusi dan durasinya.</li>
+              <li>Timer 30 menit berjalan otomatis sejak pesan pertama dikirim.</li>
+            </ul>
+          </div>
+          <div class="border-b pb-2">
+            <span class="text-lg font-semibold">🎥 3. Diskusi Ekspresi Wajah (Video Call)</span>
+            <ul class="list-disc pl-6 mt-1 text-sm">
+              <li>Klik tombol <b>Start Video Call</b> untuk diarahkan ke halaman deteksi ekspresi wajah.</li>
+              <li>Kamera akan aktif dan mendeteksi ekspresi Anda secara real-time.</li>
+              <li>Emosi seperti <b>marah, sedih, atau disgusted</b> akan memicu pop-up saran positif.</li>
+              <li>Anda bisa mengakhiri diskusi dengan menekan <b>End Discussion</b>.</li>
+            </ul>
+          </div>
+          <div>
+            <span class="text-lg font-semibold">✅ 4. Manajemen Tugas & Peran</span>
+            <ul class="list-disc pl-6 mt-1 text-sm">
+              <li>Menambahkan tugas baru dengan nama, tenggat waktu, dan penanggung jawab.</li>
+              <li>Melihat daftar tugas yang telah dibuat.</li>
+              <li>Mengatur peran anggota tim seperti Programmer, Desainer, dll.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="guide-slide hidden" id="slide-2">
+        <div class="space-y-4 text-base leading-relaxed">
+          <div>
+            <span class="text-lg font-semibold">📝 5. Umpan Balik</span>
+            <ul class="list-disc pl-6 mt-1 text-sm space-y-1">
+              <li>Berikan feedback kepada anggota tim melalui formulir yang tersedia.</li>
+              <li>Anda bisa memilih untuk memberi umpan balik secara anonim.</li>
+              <li>Umpan balik disimpan dan bisa dilihat sebagai referensi kerja tim.</li>
+            </ul>
+          </div>
+          <div class="mt-4">
+            <span class="text-lg font-semibold">📊 6. Analitik</span>
+            <div class="pl-6 mt-2 space-y-2">
+              <div class="font-semibold">Lihat kontribusi setiap anggota tim:</div>
+              <ul class="list-disc pl-6 text-sm space-y-1">
+                <li>Jumlah chat yang dikirim</li>
+                <li>Jumlah tugas yang diselesaikan</li>
+                <li>Waktu aktif selama diskusi</li>
+              </ul>
+              <div class="font-semibold mt-2">Lihat juga grafik suasana hati tim selama beberapa sesi terakhir:</div>
+              <ul class="list-disc pl-6 text-sm space-y-1">
+                <li>🟢 <b>Hijau:</b> Diskusi positif</li>
+                <li>🔴 <b>Merah:</b> Diskusi menegangkan</li>
+                <li>🔵 <b>Biru:</b> Diskusi netral</li>
+              </ul>
+            </div>
+          </div>
+          <div class="mt-4">
+            <span class="text-lg font-semibold">💡 7. Tips</span>
+            <ul class="list-disc pl-6 mt-1 text-sm space-y-1">
+              <li>Gunakan bahasa yang baik dan sopan agar suasana diskusi tetap positif.</li>
+              <li>Jika muncul pop-up saran, ikuti sebagai refleksi untuk menjaga kolaborasi sehat.</li>
+              <li>Pastikan kamera aktif jika ingin menggunakan fitur deteksi ekspresi wajah.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="guide-slide hidden" id="slide-3">
+        <div class="flex flex-col items-center justify-center h-full min-h-[260px]">
+          <span class="text-2xl font-semibold text-pink-600 mb-3 flex items-center gap-2">
+            <span class="text-rose-500">📞</span> Bantuan
+          </span>
+          <div class="text-lg text-center text-blue-900 max-w-xl">
+            Jika mengalami kendala teknis, silakan hubungi fasilitator atau developer melalui email:<br>
+            <a href="mailto:nsysalma@gmail.com" class="text-blue-600 underline">nsysalma@gmail.com</a><br>
+            atau no telp: <a href="tel:+6285694749240" class="text-blue-600 underline">+62 856-9474-9240</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigasi Slide -->
+      <div class="flex justify-between items-center mt-6 gap-2 sticky bottom-0 bg-white pt-4 pb-2 z-10">
+        <button id="prevSlide" class="bg-blue-100 text-blue-700 px-2 py-1 text-sm rounded shadow hover:bg-blue-200 font-semibold" onclick="changeSlide(-1)" type="button">&larr; Sebelumnya</button>
+        <div class="flex gap-1">
+          <span class="w-3 h-3 rounded-full inline-block bg-blue-300" id="dot-1"></span>
+          <span class="w-3 h-3 rounded-full inline-block bg-blue-300" id="dot-2"></span>
+          <span class="w-3 h-3 rounded-full inline-block bg-blue-300" id="dot-3"></span>
+        </div>
+        <button id="nextSlide" class="bg-blue-100 text-blue-700 px-2 py-1 text-sm rounded shadow hover:bg-blue-200 font-semibold" onclick="changeSlide(1)" type="button">Selanjutnya &rarr;</button>
+      </div>
+    </div>
+
+    <!-- Tombol Tutup -->
+    <div class="text-right mt-3">
+      <button onclick="toggleModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 text-sm rounded shadow">
+        Tutup
+      </button>
+    </div>
+  </div>
+</div>
+
+  <script>
+  let currentSlide = 1;
+  function showSlide(n) {
+    for (let i = 1; i <= 3; i++) {
+      document.getElementById('slide-' + i).classList.add('hidden');
+      document.getElementById('dot-' + i).classList.remove('bg-blue-700');
+      document.getElementById('dot-' + i).classList.add('bg-blue-300');
+    }
+    document.getElementById('slide-' + n).classList.remove('hidden');
+    document.getElementById('dot-' + n).classList.add('bg-blue-700');
+    document.getElementById('dot-' + n).classList.remove('bg-blue-300');
+    document.getElementById('prevSlide').disabled = n === 1;
+    document.getElementById('nextSlide').disabled = n === 3;
+  }
+  function changeSlide(dir) {
+    currentSlide += dir;
+    if (currentSlide < 1) currentSlide = 1;
+    if (currentSlide > 3) currentSlide = 3;
+    showSlide(currentSlide);
+  }
+  function toggleModal() {
+    const modal = document.getElementById('userGuideModal');
+    modal.classList.toggle('hidden');
+    if (!modal.classList.contains('hidden')) {
+      currentSlide = 1;
+      showSlide(1);
+    }
+  }
+  // Inisialisasi slide saat halaman dimuat
+  document.addEventListener('DOMContentLoaded', function() {
+    showSlide(1);
+  });
+  </script>
 </body>
 </html>
